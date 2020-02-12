@@ -1,0 +1,97 @@
+import random
+import json
+import time
+import discord
+from discord.ext import commands
+
+
+Prefix = ['Py!','Py!']
+Token = 'NjY3ODM4NTgyOTAzNDA2NTky.XiIjSA.fPCSdbqTgd9vQ5w2_k9zdnCE5ys'
+Coin = ['Heads!','Tails!']
+Exe = [1,2]
+sta = 'Made in Python!'
+color =['red','blue','green','yellow']
+color2=random.choice(color)
+
+
+bot=commands.Bot(command_prefix=Prefix)
+
+
+@bot.event
+async def on_ready():
+	print('The bot is ready!')
+	await bot.change_presence(status = discord.Status.online, activity=discord.	Game(sta))
+	
+@bot.command()
+async def reply(ctx):
+	print('Command used = reply')
+	await ctx.send('Heres a reply!')
+	
+@bot.command()
+async def flip(ctx):
+	print('Command used = flip')
+	await ctx.send('You flipped a coin!')
+	time.sleep(random.choice(Exe))
+	await ctx.send(random.choice(Coin))
+	
+@bot.command()
+async def say(ctx,*,arg):
+	print('Command used = say for',arg)
+	await ctx.send(arg)
+	
+@bot.command()
+async def change(ctx,*,arg):
+	print('Command used = change for',arg)
+	await bot.change_presence(status=discord.Status.online, activity=discord.Game(arg))
+	
+@bot.command()
+async def default(ctx):
+	print('Command used = Default')
+	await bot.change_presence(status=discord.Status.online, activity=discord.Game(sta))
+	
+@bot.command()
+async def hi(ctx):
+	await ctx.send('Hi')
+	time.sleep(random.choice(Exe))
+	await ctx.send('How are you?')
+	
+@bot.command()
+async def prefix(ctx,arg):
+	Prefix.append(arg)
+	await ctx.send('Prefix changed to:')
+	await ctx.send(arg)
+	
+@bot.command()
+async def test(ctx):
+	embed=discord.Embed(
+		colour=discord.Colour.green(),
+		title="Test",
+		description='This is just a test!'
+		)
+	await ctx.send(embed=embed)
+	
+@bot.command()
+async def purge(ctx):
+	await ctx.channel.purge(limit=10)
+	
+@bot.command()
+async def kick(ctx,member:discord.Member):
+	await member.kick()
+	await ctx.send('I kicked {.member} as {.author} said!')
+@bot.command()
+async def dm(ctx,member:discord.Member):
+	await ctx.member.send('ok')
+	
+@bot.command()
+async def test2(ctx):
+	Auth=ctx.author
+	await ctx.send('Hi!')
+	await ctx.send(Auth)
+	
+@bot.command()
+async def _eval(ctx,arg,code):
+    await ctx.send(eval(code))
+
+		
+	
+bot.run(Token)
